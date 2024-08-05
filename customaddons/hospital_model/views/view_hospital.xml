@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--VIEW DO PACIENTE-->
+
+
+
+    <record id="view_tree_paciente" model="ir.ui.view">
+        <field name="name">Paciente tree view</field>
+        <field name="model">paciente.hospital</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="nome" />
+                <field name="morada" />
+                <field name="contacto" />
+                <field name="datanas" />
+                <field name="idade" />
+                <field name="peso" />
+                <field name="sexo" />
+                
+            </tree>
+        </field>
+    </record>
+
+ <record id="paciente_action" model="ir.actions.act_window">
+    <field name="name">Paciente</field>
+    <field name="res_model">paciente.hospital</field>
+    <field name="view_mode">tree,form</field>
+ </record>
+
+<!--VIEW DO MEDICO -->
+
+    <record id="view_form_do_medico" model="ir.ui.view">
+        <field name="name">View form do medico</field>
+        <field name="model">medico.hospital</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="nome" />
+                        <field name="morada" />
+                        <field name="contacto" />
+                        <field name="datacadastro" />
+                        <field name="sexo" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_tree_hospital" model="ir.ui.view">
+        <field name="name">View tree Hospital</field>
+        <field name="model">medico.hospital</field>
+        <field name="arch" type="xml">
+            <tree>
+                        <field name="nome" />
+                        <field name="morada" />
+                        <field name="contacto" />
+                        <field name="datacadastro" />
+                        <field name="sexo" />
+                
+            </tree>
+        </field>
+    </record>
+
+<!--ACTION DO MEDICO-->
+
+    <record id="medico_action" model="ir.actions.act_window">
+        <field name="name">Action do medico</field>
+        <field name="res_model">medico.hospital</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <menuitem
+        id="menu1"
+        name="Hospital"
+        action = "medico_action"
+        sequence="10"/>
+   
+     
+    <menuitem
+        id="menu2"
+        name="Menu paciente"
+        action="medico_action"
+        parent="menu1"
+        sequence="20"/>
+<!---->
+    <menuitem
+        id="menu3"
+        name="Consultar"
+        action="paciente_action"
+        parent="menu2"
+        sequence="30"/>    
+</odoo>

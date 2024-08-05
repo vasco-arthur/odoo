@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+
+
+<!--view graphics-->
+<record id="my_first_model_graph" model="ir.ui.view">
+    <field name="name">View Graph</field>
+    <field name="model">my.first.model</field>
+    <field name="arch" type="xml">
+        <graph string="Vendas">
+            <field name="Camp_Inteiro"/>
+                        <field name="Camp_Bool"/>
+                        <field name="Camp_char"/>
+                        <field name="Camp_Float"/>
+                        <field name="datai"/>
+                        <field name="dataf"/>
+        </graph>
+    </field>
+</record>
+
+
+<!-- View pivot-->
+
+<record id="my_first_view_pivot" model="ir.ui.view">
+    <field name="name">View Pivot</field>
+    <field name="model">my.first.model</field>
+    <field name="arch" type="xml">
+        <pivot string="pivot" disable_linking="false">
+                        <field name="Camp_Inteiro"/>
+                        <field name="Camp_Bool"/>
+                        <field name="Camp_char"/>
+                        <field name="Camp_Float"/>
+                        <field name="datai"/>
+                        <field name="dataf"/>
+                </pivot>
+       
+    </field>
+</record>
+
+<!--view calendar-->
+
+<record id="my_first_view_calendar" model="ir.ui.view">
+    <field name="name">View Calendario</field>
+    <field name="model">my.first.model</field>
+    <field name="arch" type="xml"> 
+        <calendar 
+            string="calendario" 
+            date_start="datai" 
+            date_stop="dataf"
+            event_open_popup="True" 
+            quick_add="True"
+         
+            mode="month"> <!-- o event_open_popup abre uma windows para editar o evento do calendario na mesma pag-->
+                <field name="Camp_char"/>
+        
+        </calendar>
+
+    </field>
+</record>      
+<!-- view search-->
+
+<record id="my_first_view_search" model="ir.ui.view">
+    <field name="name">View search</field>
+    <field name="model">my.first.model</field>
+    <field name="arch" type="xml"> 
+
+        <search string="Teste de pesquisa 01">  <!-- serve para pesquisar mambos relacionadas aos tipos de variaveis colocadas abaixo -->
+            <field name="Camp_char"/>
+            <field name="Camp_Inteiro"/>
+
+            <filter
+            name="True"
+            string="teste bool"
+            domain="[('Camp_Bool', '=', 'True' )]"
+
+            />  <!-- da a possibilidade de mostrar os dados baseando-se em filtros pre-definidos -->
+
+            <separator/> <!-- faz um separador __ entre os filtros -->
+
+            <filter
+            name="Not"
+            string="teste bool para falso"
+            domain="[('Camp_Bool', '=', 'False' )]"
+            />
+
+            <separator/>
+
+            <filter
+            name="filtro_data"
+            date="create_date"
+            default_period="this_year"
+            />
+
+            <group expand="1" string="agrupar por">  <!-- faz um agrupamento de variaveis para pesquisar -->
+                <filter
+                    name="its_true_or_not"
+                    string="teste grupo"
+                    context="{'group_by': 'Camp_Bool', 'Camp_Bool': 'True' }"
+                />
+             </group>   
+        </search>
+    </field>
+</record>
+
+
+<!-- o kanban serve para mostrar os dados inseridos-->
+    <record model="ir.ui.view" id="my_first_model_view_kanban">
+        <field name="name">minha primeira view kanban</field>
+        <field name="model">my.first.model</field>
+        <field name="arch" type="xml">
+
+            <kanban default_group_by="Camp_Select" on_create="quick_create"> <!-- default_group_by : var selec, serve para agrupar os campos em colunas
+            on_create="quick_create serve para inserir novos dados sem precisar ir na tela form " -->
+                        <field name="Camp_Inteiro"/>
+                        <field name="Camp_Bool"/>
+                        <field name="Camp_char"/>
+                        <field name="Camp_Float"/>
+                        <field name="datai"/>
+                        <field name="dataf"/>
+
+                    <template>
+                       <templates>
+                            <t t-name="kanban-box">
+                                <div t-attf-class="oe_kanban_global_click">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><field name="Camp_char"/></strong>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <span class="badge rounded-pill"><field name="Camp_Float"/></span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <strong></strong><field name="Camp_TXT"/>
+                                    </div>
+                                </div>
+                          </t>
+                    </templates>
+
+                    </template>
+            </kanban>
+        </field>    
+    </record>
+
+<!-- o form serve para inserir os dados nas respectivas tables e camppos-->
+      <record model="ir.ui.view" id="my_first_model_view_form_cadastro">
+        <field name="name">minha primeira view form</field>
+        <field name="model">my.first.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+               <header>
+                    <field name="Camp_Select" widget="statusbar"/>                 
+                
+                </header> 
+                    <group>
+                        <group>
+                        <field name="Camp_Inteiro"/>
+                         <field name="Camp_Float"/>
+                          <field name="Camp_Bool"/>
+                        <field name="Camp_Many2one_id" options="{'no_create_edit': True, 'no_create': True}"/>
+                        </group>
+                       
+                        <group>                                   
+                        <field name="Camp_char" attrs="{'invisible': [('Camp_Bool', '=', False)]}"/> <!--condiciona que o campo "campchar" so aparece quando o boll for true
+                        -->
+                        <field name="partner_id" />
+                        <field name="datai"/>
+                        <field name="dataf"/>
+                        <field name="int2" />
+                        </group>
+                        
+                    </group>
+
+                    <!-- faz parte da personalization do form-->
+                    <notebook>
+                        <page string="linhas">
+                               <tree editable="bottom">
+                                    <field name="Camp_one2many_ids"/>
+                               </tree>
+                               <form>
+                                    <field name="Camp_char"/>
+                               </form>
+                        </page>
+                         <page string="outra pagina">
+                               
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>    
+    </record> 
+    
+   
+<!-- a tree serve para mostrar os dados inseridos-->
+    <record model="ir.ui.view" id="my_first_model_view">
+        <field name="name">minha primeira view tree</field>
+        <field name="model">my.first.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="Camp_Inteiro"/>
+                <field name="Camp_Bool"/>
+                <field name="Camp_char"/>
+                 <field name="Camp_Float"/>
+                 <field name="datai"/>
+                 <field name="dataf"/>
+                 <field name="Camp_Many2one_id" />
+            </tree>
+        </field>    
+    </record>
+
+    <!--CRIANDO UMA ACTION-->
+    <record id="my_first_model_action" model="ir.actions.act_window">
+        <field name ="name"> Meu first action </field>
+        <field name="res_model">my.first.model</field>
+		<field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+
+    </record>
+
+
+    <record id="form_view_exercicio" model="ir.ui.view">
+        <field name="name">View form exercicio</field>
+        <field name="model">my.second.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="exercicio de python">
+                        <field name="valorRecebido" /> 
+                        <field name="valorex" />  
+                    </group>    
+                </sheet>
+            </form>
+        </field>
+    </record>  
+
+    <record model="ir.ui.view" id="my_2nd_model_view">
+            <field name="name">minha segunda view tree</field>
+            <field name="model">my.second.model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="valorRecebido"/>
+                    <field name="valorex"/>
+                </tree>
+            </field>    
+        </record>
+
+    <record id="model_action2" model="ir.actions.act_window">
+        <field name="name">My second action</field>
+        <field name="res_model">my.second.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     
+
+<!--Menu principal-->
+
+    <menuitem
+        id="my_first_menu_model"
+        name="meu primeiro menu"
+        action="my_first_model_action"
+        sequence="10"/>
+
+<!--MENU ADJACENTE-->
+    <menuitem
+        id="my_first_menu_model_2nd"
+        name="Tarefa"
+        parent= "my_first_menu_model" 
+        action="my_first_model_action"
+        sequence="20"/>
+      
+<!--SUBMENU DO MENU AJACENTE-->
+    <menuitem
+        id="my_first_menu_model_3rd"
+        name="Calculo"
+        parent= "my_first_menu_model_2nd" 
+        action= "model_action2"
+        sequence="30"/>
+     
+               
+        
+    
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!--view tree herdada-->
+    <data >
+        <record id="tree_view_herdada" model="ir.ui.view">
+            <field name="name">View Herdada tree</field>
+            <field name="model">sale.order</field> <!--modelo ao qual ele herda-->
+            <field name="inherit_id"  ref="sale.view_quotation_tree_with_onboarding"></field> <!-- a ref tira-se no id externo da table encontrada no editlist da mesma--> 
+            <field name="arch" type="xml">
+                <data>
+                
+                     <xpath expr="//field[@name='create_date']" position="after"> <!--o field 'create_date' tem q ser um campo existente na table e 
+                     as positions variam de after, before, replace, inside, etc -->
+                        <field name="res_users_id" />
+                     </xpath>   
+                
+                </data>
+               
+            </field>
+        </record>
+    </data>
+    
+<!--view form herdada-->
+
+<data >
+        <record id="form_view_herdada" model="ir.ui.view">
+            <field name="name">View Herdada form</field>
+            <field name="model">sale.order</field> <!--modelo ao qual ele herda-->
+            <field name="inherit_id"  ref="sale.view_order_form"></field> <!-- a ref tira-se no id externo da table encontrada no edit view form da mesma--> 
+            <field name="arch" type="xml">
+                <data>
+                
+                     <xpath expr="//field[@name='partner_id']" position="before"> <!--o field 'partner id' tem q ser um campo existente na table e 
+                     as positions variam de after, before, replace, inside, etc -->
+                        <field name="res_users_id" />
+                     </xpath>   
+                
+                </data>
+               </field>
+        </record>
+    </data>
+
+
+</odoo>
